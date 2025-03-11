@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-dark text-white text-center">
+                <h3 class="fw-bold"><i class="fas fa-cloud-upload-alt"></i> Upload File</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <label class="upload-box w-100 d-flex flex-column align-items-center justify-content-center p-4 text-center" id="uploadBox">
+                        <input type="file" id="fileInput" name="file" required>
+                        <i class="fas fa-upload fa-3x text-secondary"></i>
+                        <p class="text-muted mb-0">Drag & Drop or Click to Upload</p>
+                        <span class="file-name text-secondary mt-2" id="fileName">No file selected</span>
+                    </label>
+
+                    <button type="submit" class="btn btn-success w-100 mt-3 fw-bold">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </button>
+                </form>
+            </div>
+            <div class="card-footer text-center bg-light">
+                <a href="{{ url_for('dashboard') }}" class="text-decoration-none text-dark fw-bold">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Center the card vertically & horizontally */
+    .vh-100 {
+        height: 100vh;
+    }
+
+    /* File Upload Box */
+    .upload-box {
+        border: 2px dashed rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .upload-box:hover {
+        background: rgba(0, 0, 0, 0.05);
+        border-color: #28a745;
+    }
+
+    .upload-box input {
+        display: none;
+    }
+
+    /* File Name Display */
+    .file-name {
+        font-size: 14px;
+    }
+
+    /* Button Styling */
+    .btn-success {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-success:hover {
+        background: #218838;
+        color: white;
+        transform: scale(1.05);
+    }
+</style>
+
+<script>
+    // Handle file input change
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        let file = event.target.files[0];
+        document.getElementById('fileName').textContent = file ? file.name : "No file selected";
+    });
+
+    // Drag & Drop Feature
+    let uploadBox = document.getElementById('uploadBox');
+    uploadBox.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadBox.style.background = 'rgba(0, 0, 0, 0.05)';
+    });
+
+    uploadBox.addEventListener('dragleave', () => {
+        uploadBox.style.background = 'transparent';
+    });
+
+    uploadBox.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadBox.style.background = 'transparent';
+        let file = e.dataTransfer.files[0];
+        document.getElementById('fileInput').files = e.dataTransfer.files;
+        document.getElementById('fileName').textContent = file.name;
+    });
+</script>
+{% endblock %}

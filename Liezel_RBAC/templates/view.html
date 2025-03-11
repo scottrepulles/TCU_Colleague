@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}View File{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- File Title & Navigation -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 class="fw-bold"><i class="fas fa-file-alt"></i> {{ filename }}</h2>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mb-3">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- File Content Display -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-file-alt"></i> File Content</h5>
+            <div class="border p-3 bg-light">
+                <pre style="white-space: pre-wrap; word-wrap: break-word;">{{ content }}</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information Section (Optional) -->
+    <div class="mt-4">
+        <h5 class="fw-bold">File Details</h5>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Uploaded By:</strong> {{ uploader.nickname if uploader else 'Unknown' }}</li>
+            <li class="list-group-item"><strong>Uploaded On:</strong> {{ file.upload_date }}</li>
+            <li class="list-group-item"><strong>File Type:</strong> {{ file.file_type }}</li>
+            <li class="list-group-item"><strong>File Size:</strong> {{ file.size }} KB</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

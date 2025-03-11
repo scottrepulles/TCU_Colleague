@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Edit File{% endblock %}
+
+{% block content %}
+<div class="container mt-5"> <!-- Added mt-5 to push down content -->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0"><i class="fas fa-edit"></i> Edit File</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <!-- Flash Messages -->
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                        <i class="fas fa-info-circle"></i> {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <div class="form-floating mb-3">
+                            <input type="text" name="filename" id="filename" class="form-control" value="{{ file.filename }}" required>
+                            <label for="filename"><i class="fas fa-file"></i> Filename</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-danger btn-lg">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button Loading Animation -->
+<script>
+    document.querySelector("form").addEventListener("submit", function() {
+        let btn = document.querySelector("button[type='submit']");
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Saving...';
+        btn.disabled = true;
+    });
+</script>
+{% endblock %}
